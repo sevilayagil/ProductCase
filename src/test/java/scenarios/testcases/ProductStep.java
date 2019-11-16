@@ -30,6 +30,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import static junit.framework.TestCase.assertTrue;
+
 public class ProductStep extends StepManager {
     private LoginProductPageObjects LoginProduct;
     XSSFWorkbook workbook;
@@ -65,7 +67,6 @@ public class ProductStep extends StepManager {
         elementClick(LoginProduct.LoginButton);
     }
 
-
     @Then("^user shows homepage$")
     public void userShowsHomepage() {
         getElement(LoginProduct.MyBasketIcon).isDisplayed();
@@ -78,8 +79,6 @@ public class ProductStep extends StepManager {
         PageScrolldown();
         elementClick(LoginProduct.SecondPage);
         waitElemntCssControl(LoginProduct.SecondPage, "class", "active");
-
-
     }
 
     @And("^user open second page and selects one product$")
@@ -90,24 +89,25 @@ public class ProductStep extends StepManager {
         int randInt = rand.nextInt(allElements.size());
         allElements.get(randInt).findElement(By.className("lazy")).click();
         PriceBeforeAddingToText = getElement(LoginProduct.PriceBeforeAddingtoCart).getText();
-
     }
 
     @Then("^user adds product to cart$")
     public void userAddsProductToCart() {
         elementClick(LoginProduct.AddToChartButton);
+        elementClick(LoginProduct.MyBasketIcon);
     }
 
     @And("^user controls accuracy of product price in basket$")
     public void userControlsAccuracyOfProductPriceInBasket() {
         PriceAfterAddingToText = getElement(LoginProduct.PriceAfterAddingtoCart).getText();
         Assert.assertNotEquals(PriceBeforeAddingToText, PriceAfterAddingToText);
-
     }
 
     @And("^user increases the product quantity and sees that the number of products is (\\d+)$")
     public void userIncreasesTheProductQuantityAndSeesThatTheNumberOfProductsIs(int arg0) {
-
+        elementClick(LoginProduct.IncreasetoCart);
+        //controls spinnertext
+        waitElemntCssControl(LoginProduct.SpinnerField, "value", "2");
     }
 
     @And("^user deletes the product from the basket and checks that the basket is empty\\.$")

@@ -23,10 +23,16 @@ public class LoginProductPageObjects {
     public WebElement SecondPage;
     @FindBy(how = How.CLASS_NAME, using = "column")
     public WebElement ProductArea;
-    @FindBy(how = How.ID, using = "instantPay")
+    @FindBy(how = How.CLASS_NAME, using = "btnAddBasket")
     public WebElement AddToChartButton;
     @FindBy(how = How.CLASS_NAME, using = "newPrice")
     public WebElement PriceBeforeAddingtoCart;
     @FindBy(how = How.CLASS_NAME, using = "priceArea")
     public WebElement PriceAfterAddingtoCart;
+    @FindBy(how = How.CLASS_NAME, using = "spinnerUp")
+    public WebElement IncreasetoCart;
+    @FindBy(how = How.CLASS_NAME, using = "spinnerField")
+    public WebElement SpinnerField;
+
+
 }
