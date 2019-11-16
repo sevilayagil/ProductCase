@@ -1,0 +1,5 @@
+chromedriver.exe
+
+/src/test/java/screenshot/
+/target/
+.idea
