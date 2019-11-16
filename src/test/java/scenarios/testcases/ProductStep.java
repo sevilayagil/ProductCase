@@ -93,7 +93,7 @@ public class ProductStep extends StepManager {
 
     @Then("^user adds product to cart$")
     public void userAddsProductToCart() {
-        elementClick(LoginProduct.AddToChartButton);
+        elementClick(LoginProduct.AddToChartButton,TimeOut.HIGH);
         elementClick(LoginProduct.MyBasketIcon);
     }
 
@@ -112,6 +112,6 @@ public class ProductStep extends StepManager {
 
     @And("^user deletes the product from the basket and checks that the basket is empty\\.$")
     public void userDeletesTheProductFromTheBasketAndChecksThatTheBasketIsEmpty() {
+        elementClick(LoginProduct.RemoveProdut);
     }
-
 }

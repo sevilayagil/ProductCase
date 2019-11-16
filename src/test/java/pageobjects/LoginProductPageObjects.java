@@ -33,6 +33,9 @@ public class LoginProductPageObjects {
     public WebElement IncreasetoCart;
     @FindBy(how = How.CLASS_NAME, using = "spinnerField")
     public WebElement SpinnerField;
+    @FindBy(how = How.CLASS_NAME, using = "removeProd")
+    public WebElement RemoveProdut;
+
 
 
 }
