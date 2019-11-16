@@ -10,8 +10,11 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import pageobjects.LoginProductPageObjects;
 import scenarios.base.StepManager;
 
@@ -19,15 +22,21 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class ProductStep extends StepManager {
     private LoginProductPageObjects LoginProduct;
     XSSFWorkbook workbook;
     XSSFSheet sheet;
     XSSFCell cell;
+    private String PriceBeforeAddingToText;
+    private String PriceAfterAddingToText;
 
 
     public ProductStep() throws Exception {
@@ -43,10 +52,10 @@ public class ProductStep extends StepManager {
     @When("^user sign in website$")
     public void userSignInWebsite() throws IOException {
         elementClick(LoginProduct.SignButton);
-        File src=new File("C:/Users/Sevo/Desktop/login.xlsx");
+        File src = new File("C:/Users/Sevo/Desktop/login.xlsx");
         FileInputStream fis = new FileInputStream(src);
         workbook = new XSSFWorkbook(fis);
-        sheet= workbook.getSheetAt(0);
+        sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(0);
         Cell cell = row.getCell(0);
         getElement(LoginProduct.Email).sendKeys(cell.getStringCellValue());
@@ -59,24 +68,40 @@ public class ProductStep extends StepManager {
 
     @Then("^user shows homepage$")
     public void userShowsHomepage() {
+        getElement(LoginProduct.MyBasketIcon).isDisplayed();
     }
 
     @When("^user search products$")
     public void userSearchProducts() {
+        getElement(LoginProduct.SearchBar).sendKeys("Bilgisayar");
+        elementClick(LoginProduct.SearchIcon);
+        PageScrolldown();
+        elementClick(LoginProduct.SecondPage);
+        waitElemntCssControl(LoginProduct.SecondPage, "class", "active");
+
 
     }
 
     @And("^user open second page and selects one product$")
     public void userOpenSecondPageAndSelectsOneProduct() {
+        PageScrollup();
+        List<WebElement> allElements = driver.findElements(By.className("column"));
+        Random rand = new Random();
+        int randInt = rand.nextInt(allElements.size());
+        allElements.get(randInt).findElement(By.className("lazy")).click();
+        PriceBeforeAddingToText = getElement(LoginProduct.PriceBeforeAddingtoCart).getText();
+
     }
 
     @Then("^user adds product to cart$")
     public void userAddsProductToCart() {
-
+        elementClick(LoginProduct.AddToChartButton);
     }
 
     @And("^user controls accuracy of product price in basket$")
     public void userControlsAccuracyOfProductPriceInBasket() {
+        PriceAfterAddingToText = getElement(LoginProduct.PriceAfterAddingtoCart).getText();
+        Assert.assertNotEquals(PriceBeforeAddingToText, PriceAfterAddingToText);
 
     }
 

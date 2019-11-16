@@ -93,38 +93,6 @@ public class StepManager {
             return null;
         }
     }
-
-    protected WebElement elementinvisible(WebElement element, TimeOut... timeOuts) {
-        try {
-            WebDriverWait wait =
-                    new WebDriverWait(driver, timeOuts.length == 0 ? _baseTimeOutValue : timeOuts[0].value);
-            wait.until(ExpectedConditions.invisibilityOf(element));
-            return element;
-        } catch (Exception ex) {
-            System.out.println("find element method error" + ex.getMessage());
-            takeScreenshot();
-            return null;
-        }
-    }
-
-    protected WebElement elementVisible(WebElement element, TimeOut... timeOuts) {
-        try {
-            WebDriverWait wait =
-                    new WebDriverWait(driver, timeOuts.length == 0 ? _baseTimeOutValue : timeOuts[0].value);
-            wait.until(ExpectedConditions.visibilityOf(element));
-            return element;
-        } catch (Exception ex) {
-            System.out.println("find element method error" + ex.getMessage());
-            takeScreenshot();
-            return null;
-        }
-    }
-
-    public void PageScrolldown() {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0,250)", "");
-    }
-
     protected WebElement waitElemntCssControl(
             WebElement element, String prop, String value, TimeOut... timeOuts) {
         try {
@@ -139,9 +107,17 @@ public class StepManager {
         }
     }
 
+
+
+    public void PageScrolldown() {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollBy(0,1000)", "");
+    }
+
+
     public void PageScrollup() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0,-250)", "");
+        jse.executeScript("window.scrollBy(0,-1000)", "");
     }
 
     public enum TimeOut {
