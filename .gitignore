@@ -3,3 +3,4 @@ chromedriver.exe
 /src/test/java/screenshot/
 /target/
 .idea
+/src/test/resources/login.xlsx
